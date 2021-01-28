@@ -32,6 +32,7 @@ public class EnemyMovement : MonoBehaviour
             var distance = Vector2.Distance(transform.position, target.position);
             if (distance < 0.1f)
             {
+                Flip();
                 var tmp = target.position;
                 target.position = startPosition;
                 startPosition = tmp;
@@ -56,5 +57,13 @@ public class EnemyMovement : MonoBehaviour
     public void PlayerRunAway()
     {
         isPLayerDetected = false;
+    }
+    
+    private void Flip()
+    {
+        
+        var scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 }

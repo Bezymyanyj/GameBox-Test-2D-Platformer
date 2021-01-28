@@ -67,19 +67,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8141103338352954160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7625354195679429877}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 391383d9a728e21468069061ee951c3c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  closedDoor: {fileID: 1004732506448733784}
 --- !u!1001 &686560185597682239
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -455,10 +442,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6901311291447175844, guid: 07a188845250d3a4fb55a3efae34120e, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 8141103338352954160, guid: 07a188845250d3a4fb55a3efae34120e, type: 3}
+      propertyPath: closedDoor
+      value: 
+      objectReference: {fileID: 1004732506448733784}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07a188845250d3a4fb55a3efae34120e, type: 3}
 --- !u!1 &7625354195679429877 stripped

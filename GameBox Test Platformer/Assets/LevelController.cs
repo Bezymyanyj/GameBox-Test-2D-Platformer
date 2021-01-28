@@ -13,8 +13,16 @@ public class LevelController : SingletonAsComponent<LevelController>
     public delegate void TryOpenDoor();
     public event TryOpenDoor OpenDoor;
 
+    public delegate void TryFinish();
+    public event TryFinish Finish;
+
     public void Open()
     {
         OpenDoor?.Invoke();
+    }
+
+    public void FinishLevel()
+    {
+        Finish?.Invoke();
     }
 }

@@ -42,7 +42,7 @@ public class EnemyObstacleCheck : MonoBehaviour
             if (GenerateRay(direction))
             {
                 Debug.Log("Obstacle");
-                movement.FollowToPlayer(CalculateVectorToMove(direction));
+                movement.FollowToPlayer(CalculateVectorToMove(direction * 100));
             }
         }
     }

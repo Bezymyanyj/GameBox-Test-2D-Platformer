@@ -9,8 +9,10 @@ public class EnemyVision : MonoBehaviour
 
     private CircleCollider2D circleCollider;
     private EnemyMovement enemyMovement;
+    private EnemyObstacleCheck enemyObstacleCheck;
     private void Awake()
     {
+        enemyObstacleCheck = GetComponent<EnemyObstacleCheck>();
         circleCollider = GetComponent<CircleCollider2D>();
         enemyMovement = GetComponent<EnemyMovement>();
     }
@@ -25,13 +27,15 @@ public class EnemyVision : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         enemyMovement.PlayerDetected(other.transform);
-        Debug.Log("I see you");
+        enemyObstacleCheck.DetectPlayer(true);
+        //Debug.Log("I see you");
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
         enemyMovement.PlayerRunAway();
-        Debug.Log("Bye Bye");
+        enemyObstacleCheck.DetectPlayer(false);
+        //Debug.Log("Bye Bye");
     }
 }

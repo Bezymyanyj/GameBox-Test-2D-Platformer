@@ -43,7 +43,7 @@ public class EnemyMovement : MonoBehaviour
         
     }
 
-    private void FollowToPlayer(Vector2 player)
+    public void FollowToPlayer(Vector2 player)
     {
         transform.position = Vector2.MoveTowards(transform.position, player, speed * Time.deltaTime);
     }
@@ -57,6 +57,11 @@ public class EnemyMovement : MonoBehaviour
     public void PlayerRunAway()
     {
         isPLayerDetected = false;
+    }
+
+    public Transform GetPlayerPosition()
+    {
+        return playerPosition;
     }
     
     private void Flip()

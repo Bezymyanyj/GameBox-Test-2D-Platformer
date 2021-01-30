@@ -42,7 +42,7 @@ public class EnemyObstacleCheck : MonoBehaviour
             if (GenerateRay(direction))
             {
                 Debug.Log("Obstacle");
-                movement.FollowToPlayer(CalculateVectorToMove(direction * 100));
+                //movement.FollowToPlayer(CalculateVectorToMove(direction * 100));
             }
         }
     }
@@ -53,14 +53,14 @@ public class EnemyObstacleCheck : MonoBehaviour
         return Physics2D.Raycast(transform.position, direction, distanceCheck, layerCheck);
     }
 
-    private Vector2 CalculateVectorToMove(Vector2 direction)
-    {
-        var distance = movement.GetPlayerPosition().position - transform.position;
-        var tmp = distance * direction;
-        distance.x -= tmp.x;
-        distance.y -= tmp.y;
-        return distance;
-    }
+    // private Vector2 CalculateVectorToMove(Vector2 direction)
+    // {
+    //     var distance = movement.GetPlayerPosition().position - transform.position;
+    //     var tmp = distance * direction;
+    //     distance.x -= tmp.x;
+    //     distance.y -= tmp.y;
+    //     return distance;
+    // }
 
     public void DetectPlayer(bool isDetected)
     {

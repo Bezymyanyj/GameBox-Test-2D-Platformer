@@ -1,54 +1,114 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyVision : MonoBehaviour
 {
     public float visionRadius;
-    public LayerMask layer;
+    public float distanceObstacleCheck;
+    public float speed = 10;
+    public LayerMask groundLayer;
+    public LayerMask playerLayer;
 
-    private CircleCollider2D circleCollider;
     private EnemyMovement enemyMovement;
-    private EnemyObstacleCheck enemyObstacleCheck;
+    private Transform player;
+    
+    private Vector2[] directions = {
+        new Vector2(0,1),
+        new Vector2(1, 1), 
+        new Vector2(1,0),
+        new Vector2(-1, 1), 
+        new Vector2(0,-1),
+        new Vector2(-1, -1), 
+        new Vector2(-1,0),
+        new Vector2(-1, 1), 
+    };
+
+    private bool[] directionsCheck = {false, false, false, false, false, false, false, false};
+
+    private bool isObstacleAhead;
+    private bool isPlayerDetected;
+    
+    
     private void Awake()
     {
-        enemyObstacleCheck = GetComponent<EnemyObstacleCheck>();
-        //circleCollider = GetComponent<CircleCollider2D>();
         enemyMovement = GetComponent<EnemyMovement>();
-    }
-
-    private void Start()
-    {
-        //circleCollider.radius = visionRadius;
     }
 
     private void Update()
     {
-        var other = Physics2D.OverlapCircle(transform.position, visionRadius, layer);
-        if (other != null)
+        if (!isObstacleAhead)
         {
-            enemyMovement.PlayerDetected(other.transform);
-            enemyMovement.FollowToPlayer(other.transform.position);
-            enemyObstacleCheck.DetectPlayer(true);
+            Debug.Log("Looking player");
+            var other = Physics2D.OverlapCircle(transform.position, visionRadius, playerLayer);
+            if (other != null)
+            {
+                isPlayerDetected = true;
+                player = other.transform;
+                enemyMovement.PlayerDetect(true);
+                enemyMovement.FollowToPlayer(other.transform.position);
+            }
+            else
+            {
+                enemyMovement.PlayerDetect(false);
+                isPlayerDetected = false;
+            }
+        }
+        if (isPlayerDetected)
+        {
+            //CheckAround();
         }
         
     }
+    
+    private void CheckAround()
+    {
+        var index = 0;
+        foreach (var direction in directions)
+        {
+            index += 1;
+            if (index == directions.Length) index = 0;
+            if (GenerateRay(direction))
+            {
+                Debug.Log("Obstacle");
+                directionsCheck[index] = true;
+                isObstacleAhead = true;
+                if (direction.x == 0 && direction.y > 0)
+                {
+                    Debug.Log("right");
+                    enemyMovement.FollowToPlayer(direction * -1 + (Vector2)transform.position * speed);
+                }
+            }
+            else
+            {
+                directionsCheck[index] = false;
+            }
+        }
 
-
-    // private void OnTriggerEnter2D(Collider2D other)
-    // {
-    //     if (!other.CompareTag("Player")) return;
-    //     enemyMovement.PlayerDetected(other.transform);
-    //     enemyObstacleCheck.DetectPlayer(true);
-    //     //Debug.Log("I see you");
-    // }
-    //
-    // private void OnTriggerExit2D(Collider2D other)
-    // {
-    //     if (!other.CompareTag("Player")) return;
-    //     enemyMovement.PlayerRunAway();
-    //     enemyObstacleCheck.DetectPlayer(false);
-    //     //Debug.Log("Bye Bye");
-    // }
+        var tmp = false;
+        foreach (var check in directionsCheck)
+        {
+            if (check)
+            {
+                tmp = true;
+            }
+        }
+        
+        isObstacleAhead = tmp;
+        
+        Debug.Log($"obstacle {isObstacleAhead}");
+    }
+    
+    private bool GenerateRay(Vector2 direction)
+    {
+        return Physics2D.Raycast(transform.position, direction, distanceObstacleCheck, groundLayer);
+    }
+    
+    private Vector2 CalculateVectorToMove()
+    {
+        return player.position - transform.position;
+    }
 }

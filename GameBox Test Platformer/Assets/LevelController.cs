@@ -10,6 +10,8 @@ public class LevelController : SingletonAsComponent<LevelController>
         set => _Instance = value;
     }
 
+    public string time;
+
     public delegate void TryOpenDoor();
     public event TryOpenDoor OpenDoor;
 
@@ -23,6 +25,7 @@ public class LevelController : SingletonAsComponent<LevelController>
 
     public void FinishLevel()
     {
+        Debug.Log("Finish");
         Finish?.Invoke();
     }
 }

@@ -30,7 +30,11 @@ public class UI_Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isFinished) return;
+        if (isFinished)
+        {
+            LevelController.Instance.time = timeText;
+            return;
+        }
         var levelTime = Time.timeSinceLevelLoad;
         if(levelTime > currentSeconds){
             currentSeconds++;

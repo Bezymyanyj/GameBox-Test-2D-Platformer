@@ -23,7 +23,7 @@ public class UI_Timer : MonoBehaviour
 
     private void Start()
     {
-        LevelController.Instance.Finish += OnFinish;
+        LevelController.Instance.Finish += OnFinish; // При завершениии уровня останавливает подсчет
     }
 
 
@@ -43,7 +43,9 @@ public class UI_Timer : MonoBehaviour
             timerText.SetText(timeText);
         }
     }
-    
+    /// <summary>
+    /// При завершениии уровня останавливает подсчет
+    /// </summary>
     private void OnFinish()
     {
         isFinished = true;
@@ -56,7 +58,7 @@ public class UI_Timer : MonoBehaviour
     private string GetTime(){
         var levelMinute = minutes < 10 ? $"0{minutes}" : $"{minutes}";
         var levelSeconds = seconds < 10 ? $"0{seconds}" : $"{seconds}";
-        var time = levelMinute + " : " + levelSeconds;
+        var time = levelMinute + ":" + levelSeconds;
         return time;
     }
 }

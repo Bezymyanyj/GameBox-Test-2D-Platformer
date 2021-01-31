@@ -10,7 +10,7 @@ public class SpikeCollisionChecker : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerAnimationController>().Death();
+            other.GetComponent<PlayerMovement>().PlayerDeath();
         }
     }
 }

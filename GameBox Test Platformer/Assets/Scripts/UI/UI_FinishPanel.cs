@@ -13,12 +13,9 @@ public class UI_FinishPanel : MonoBehaviour
         LevelController.Instance.Finish += FinishLevel;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Открывает экран победы
+    /// </summary>
     private void FinishLevel()
     {
         finishPanel.SetActive(true);

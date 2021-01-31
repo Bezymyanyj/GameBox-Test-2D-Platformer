@@ -9,6 +9,12 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 200f;
     public LayerMask groundMask;
 
+    public delegate void TryJump(int levelJump); // Параметром регулируется какой звук проигрывать;
+    public event TryJump Jump;
+
+    public delegate void TryDeath();
+    public event TryDeath Death;
+
     private Rigidbody2D rb;
     private PlayerAnimationController playerAnimation;
 
@@ -29,9 +35,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         isGrounded = Physics2D.IsTouchingLayers(GetComponent<CircleCollider2D>(), groundMask);
 
+        #region Left Right Input
         
         if (Input.GetAxisRaw("Horizontal") != 0)
         {
@@ -48,29 +54,31 @@ public class PlayerMovement : MonoBehaviour
         {
             playerAnimation.Run(false);
         }
+        #endregion
 
-        //Debug.Log(horizontalMove);
+        
         if (isGrounded)
         {
             isDoubleJump = true;
-            //speed *= 2;
         }
+
+        #region Jump Input
 
         if (Input.GetButtonDown("Jump") & isGrounded)
         {
             jump = true;
-            playerAnimation.Jump();
+            Jump?.Invoke(0);
         }
         else if(Input.GetButtonDown("Jump")&& isDoubleJump && !isGrounded)
         {
             isDoubleJump = false;
             jump = true;
-            playerAnimation.Jump();
+            Jump?.Invoke(1);
         }
+        #endregion
 
         moveCharacter.x += horizontalInput;
-        
-        
+
     }
 
     private void FixedUpdate()
@@ -82,13 +90,14 @@ public class PlayerMovement : MonoBehaviour
         }
         if (jump)
         {
-            //speed /= 2;
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jump = false;
         }
-        //rb.velocity = newLog;
     }
 
+    /// <summary>
+    /// Поворачивает спрайт
+    /// </summary>
     private void Flip()
     {
         isFacingRight = !isFacingRight;
@@ -96,5 +105,10 @@ public class PlayerMovement : MonoBehaviour
         var scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+    }
+
+    public void PlayerDeath()
+    {
+        Death?.Invoke();
     }
 }

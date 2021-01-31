@@ -17,7 +17,13 @@ public class PlayerAnimationController : MonoBehaviour
         cameraShake = GetComponent<CameraShake>();
     }
 
-    public void Jump()
+    private void Start()
+    {
+        movement.Jump += Jump;
+        movement.Death += Death;
+    }
+
+    private void Jump(int levelJump)
     {
         animator.SetTrigger("Jump");
     }
@@ -27,7 +33,7 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetBool("Run", isRunning);
     }
 
-    public void Death()
+    private void Death()
     {
         movement.enabled = false;
         animator.SetTrigger("Death");

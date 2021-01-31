@@ -9,11 +9,13 @@ public class FinishLevelChecker : MonoBehaviour
 
     private SpriteRenderer sprite;
     private BoxCollider2D boxCollider;
+    private AudioSource audioSource;
 
     private void Awake()
     {
         sprite = GetComponent<SpriteRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -32,5 +34,6 @@ public class FinishLevelChecker : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         LevelController.Instance.FinishLevel();
+        if(!audioSource.isPlaying)audioSource.Play();
     }
 }

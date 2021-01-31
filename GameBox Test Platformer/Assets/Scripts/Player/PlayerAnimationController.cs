@@ -35,6 +35,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void Death()
     {
+        gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
         movement.enabled = false;
         animator.SetTrigger("Death");
         var timeDelay = animator.GetCurrentAnimatorStateInfo(0).length;

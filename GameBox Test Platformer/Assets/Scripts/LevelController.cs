@@ -33,6 +33,5 @@ public class LevelController : SingletonAsComponent<LevelController>
     {
         Debug.Log("Finish");
         Finish?.Invoke();
-        Time.timeScale = 0;
     }
 }
